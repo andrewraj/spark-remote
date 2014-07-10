@@ -8,9 +8,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.android.sparkremote.MainActivity$PlaceholderFragment" >
 
-    <ViewStub
-        android:id="@+id/viewStub1"
+    <include
+        android:id="@+id/firstSwitch"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="110dp"
+        layout="@layout/spark_switch" />
 
 </RelativeLayout>

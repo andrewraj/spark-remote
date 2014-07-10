@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/switchLayout"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="@color/grey" >
+    android:layout_height="110dp"
+    android:background="@android:drawable/picture_frame" >
 
     <RelativeLayout
         android:id="@+id/switchRelativeLayout"
@@ -19,98 +19,111 @@
             android:background="@color/dark_grey"
             android:checked="true"
             android:paddingLeft="10dp"
-            android:paddingRight="5dp"
+            android:paddingRight="10dp"
             android:text="@string/switch_name"
-            android:textColor="#3498db"
+            android:textColor="@android:color/white"
             android:textSize="20sp" />
+
     </RelativeLayout>
 
-    <TableRow
-        android:id="@+id/timeTableRow"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/switchRelativeLayout" >
+    <RelativeLayout
+        android:id="@+id/automationRelativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/switchRelativeLayout"
+        android:background="@color/grey" >
 
-        <TextView
-            android:id="@+id/timeTextView"
+        <TableRow
+            android:id="@+id/timeTableRow"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/timeTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:hint="@string/time_hint"
+                android:textAllCaps="true"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </TableRow>
+
+        <LinearLayout
+            android:id="@+id/daysLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/timeTableRow"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:hint="@string/time_hint"
-            android:textAllCaps="true"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </TableRow>
+            android:layout_marginRight="10dp"
+            android:divider="@android:color/transparent"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:showDividers="middle"
+            android:weightSum="7" >
 
-    <LinearLayout
-        android:id="@+id/daysLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_alignParentBottom="true"
-        android:divider="@android:color/transparent"
-        android:orientation="horizontal"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
-        android:showDividers="middle"
-        android:weightSum="7" >
+            <TextView
+                android:id="@+id/mondayTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/mon_hint"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TextView
-            android:id="@+id/mondayTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:hint="@string/mon_hint"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            <TextView
+                android:id="@+id/tuesdayTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/tue_hint"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TextView
-            android:id="@+id/tuesdayTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/tue_hint"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            <TextView
+                android:id="@+id/wednesdayTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/wed_hint"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TextView
-            android:id="@+id/wednesdayTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/wed_hint"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            <TextView
+                android:id="@+id/thursdayTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/thu_hint"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TextView
-            android:id="@+id/thursdayTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/thu_hint"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            <TextView
+                android:id="@+id/fridayTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/fri_hint"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TextView
-            android:id="@+id/fridayTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/fri_hint"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            <TextView
+                android:id="@+id/saturdayTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/sat_hint"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TextView
-            android:id="@+id/saturdayTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/sat_hint"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            <TextView
+                android:id="@+id/sundayTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/sun_hint"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/sundayTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/sun_hint"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
