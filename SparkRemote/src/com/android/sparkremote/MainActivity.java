@@ -3,6 +3,7 @@ package com.android.sparkremote;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.android.volley.Request.Method;
@@ -10,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -24,11 +26,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnDragListener;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
 
 public class MainActivity extends Activity {
 
 	private static final String TAG = "MainActivity";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,7 +66,10 @@ public class MainActivity extends Activity {
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
-	public static class PlaceholderFragment extends Fragment implements OnDragListener, OnClickListener {
+	public static class PlaceholderFragment extends Fragment implements
+			OnCheckedChangeListener {
+
+		private Switch relaySwitch;
 
 		public PlaceholderFragment() {
 		}
@@ -71,73 +79,129 @@ public class MainActivity extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_main, container,
 					false);
-			
-			Switch a = (Switch)rootView.findViewById(R.id.sparkSwitch);
-			a.setOnDragListener(this);
-			a.setOnClickListener(this);
-			//a.setOnCheckedChangeListener(listener);
+
+			relaySwitch = (Switch) rootView.findViewById(R.id.sparkSwitch);
+			relaySwitch.setOnCheckedChangeListener(this);
+
 			return rootView;
 		}
 
 		@Override
-		public boolean onDrag(View v, DragEvent event) {
-			makeCall();
-			return false;
+		public void onResume() {
+			// TODO Auto-generated method stub
+			updateUI(getSwitchStatus());
+			super.onResume();
 		}
 
-		@Override
-		public void onClick(View v) {
-			makeCall();
-		}
-		
-		public void makeCall(){
+		private JSONObject getSwitchStatus() {
 			// TODO Auto-generated method stub
 			String serverURL = "https://api.spark.io/v1";
 			String deviceID = "/devices/51ff6f065067545734370187";
 			final String accessToken = "ddc13c3a19c8f135af2a4427f5101cfcce1adfe0";
 			
-			
-			
+
 			// Tag used to cancel the request
 			String tag_json_obj = "json_obj_req";
-			 
-			String url = serverURL + deviceID + "/relay";
-			         
-   
-			         
-			        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.POST,
-			                url, new JSONObject(),
-			                new Response.Listener<JSONObject>() {
-			 
-			                    @Override
-			                    public void onResponse(JSONObject response) {
-			                        Log.d(TAG, response.toString());
-			                    }
-			                }, new Response.ErrorListener() {
-			 
-			                    @Override
-			                    public void onErrorResponse(VolleyError error) {
-			                        VolleyLog.d(TAG, "Error: " + error.getMessage());
-			                        // hide the progress dialog
-			                    }
-			                }) {
-			            @Override
-			            protected Map<String, String> getParams() {
-			                Map<String, String> params = new HashMap<String, String>();
-			                params.put("access_token", "ddc13c3a19c8f135af2a4427f5101cfcce1adfe0");
-			                params.put("params", "r1,LOW");
-			 
-			                return params;
-			            }
-			        };
-			 
+
+			String url = serverURL + deviceID + "/status";
+
+			StringRequest jsonObjReq = new StringRequest(Method.POST, url,
+					new Response.Listener<String>() {
+
+						@Override
+						public void onResponse(String response) {
+							Log.d(TAG, response.toString());
+							try {
+								JSONObject object = new JSONObject(response);
+							} catch (JSONException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}, new Response.ErrorListener() {
+
+						@Override
+						public void onErrorResponse(VolleyError error) {
+							VolleyLog.d(TAG, "Error: " + error.getMessage());
+							// hide the progress dialog
+						}
+					}) {
+				@Override
+				protected Map<String, String> getParams() {
+					Map<String, String> params = new HashMap<String, String>();
+					params.put("access_token", accessToken);
+
+					return params;
+				}
+			};
+
 			// Adding request to request queue
-			HTTPConnection.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+			HTTPConnection.getInstance().addToRequestQueue(jsonObjReq,
+					tag_json_obj);
 		}
-		
-		
-		
-		
+
+		public boolean makeCall(final String switchStatus) {
+			// TODO Auto-generated method stub
+			String serverURL = "https://api.spark.io/v1";
+			String deviceID = "/devices/51ff6f065067545734370187";
+			final String accessToken = "ddc13c3a19c8f135af2a4427f5101cfcce1adfe0";
+
+			// Tag used to cancel the request
+			String tag_json_obj = "json_obj_req";
+
+			String url = serverURL + deviceID + "/relay";
+
+			StringRequest jsonObjReq = new StringRequest(Method.POST, url,
+					new Response.Listener<String>() {
+
+						@Override
+						public void onResponse(String response) {
+							Log.d(TAG, response.toString());
+						}
+					}, new Response.ErrorListener() {
+
+						@Override
+						public void onErrorResponse(VolleyError error) {
+							VolleyLog.d(TAG, "Error: " + error.getMessage());
+							// hide the progress dialog
+						}
+					}) {
+				@Override
+				protected Map<String, String> getParams() {
+					Map<String, String> params = new HashMap<String, String>();
+					params.put("access_token", accessToken);
+					params.put("params", switchStatus);
+
+					return params;
+				}
+			};
+
+			// Adding request to request queue
+			HTTPConnection.getInstance().addToRequestQueue(jsonObjReq,
+					tag_json_obj);
+			return true;
+		}
+
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+
+			String relayNumber = null;
+
+			switch (buttonView.getId()) {
+			case R.id.sparkSwitch:
+				relayNumber = "r1";
+				break;
+			}
+
+			if (isChecked) {
+				makeCall(relayNumber + ",LOW");
+			} else {
+				makeCall(relayNumber + ",HIGH");
+			}
+
+		}
+
 	}
-	
+
 }
